@@ -1,0 +1,15 @@
+﻿{
+  "Author": "Judisch",
+  "Name": "FastPraetorium",
+  "Punchline": "Get through The Praetorium 76 seconds faster",
+  "Description": "Automatically changes the game's cutscene audio language during The Praetorium",
+  "Tags": [ "Other" ],
+  "InternalName": "FastPraetorium",
+  "AssemblyVersion": "0.1.0.0",
+  "RepoUrl": "https://github.com/Judisch/FastPraetorium",
+  "ApplicableVersion": "any",
+  "DalamudApiLevel": 4,
+  "LoadPriority": 0,
+  "ImageUrls": [],
+  "IconUrl": ""
+}
