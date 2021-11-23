@@ -7,4 +7,4 @@ This plugin will automatically choose the fastest language for each cutscene, sa
 
 This plugin only affects cutscene audio; all text will still be in your preferred language. 
 
-When The Praetorium is over, the language will be reset to "Adjust to Client". 
+When The Praetorium is over, the cutscene audio language will be reset to its original setting. 

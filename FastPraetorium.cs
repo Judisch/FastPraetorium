@@ -45,11 +45,20 @@ namespace FastPraetorium
         private const uint THE_ULTIMA_WEAPON_AGAIN = 1975;
         private const uint LAHABREA = 1976;
 
+        private const uint LANGUAGE_ADJUST_TO_CLIENT = 4294967295;
+        private const uint LANGUAGE_JAPANESE = 0;
+        private const uint LANGUAGE_ENGLISH = 1;
+        private const uint LANGUAGE_GERMAN = 2;
+        private const uint LANGUAGE_FRENCH = 3;
+
+        private static uint originalLanguage = LANGUAGE_ADJUST_TO_CLIENT;
+
         private static void OnTargetChanged(uint id)
         {
             switch (id)
             {
                 case NERO_TOL_SCAEVA:
+                    originalLanguage = CutsceneMovieVoice;
                     CutsceneMovieVoice = LANGUAGE_JAPANESE;
                     break;
 
@@ -66,16 +75,10 @@ namespace FastPraetorium
                     break;
 
                 case LAHABREA:
-                    CutsceneMovieVoice = LANGUAGE_ADJUST_TO_CLIENT;
+                    CutsceneMovieVoice = originalLanguage;
                     break;
             }
         }
-
-        private const uint LANGUAGE_ADJUST_TO_CLIENT = 4294967295;
-        private const uint LANGUAGE_JAPANESE = 0;
-        private const uint LANGUAGE_ENGLISH = 1;
-        private const uint LANGUAGE_GERMAN = 2;
-        private const uint LANGUAGE_FRENCH = 3;
 
         private const string CONFIG_NAME_CUTSCENEMOVIEVOICE = "CutsceneMovieVoice";
 
