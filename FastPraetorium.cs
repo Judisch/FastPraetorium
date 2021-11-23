@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using Dalamud.Game.ClientState.Objects;
 using Dalamud.IoC;
 using Dalamud.Plugin;
@@ -49,23 +50,23 @@ namespace FastPraetorium
             switch (id)
             {
                 case NERO_TOL_SCAEVA:
-                    ChangeCutsceneAudioLanguage(LANGUAGE_JAPANESE);
+                    CutsceneMovieVoice = LANGUAGE_JAPANESE;
                     break;
 
                 case GAIUS_VAN_BAELSAR:
-                    ChangeCutsceneAudioLanguage(LANGUAGE_GERMAN);
+                    CutsceneMovieVoice = LANGUAGE_GERMAN;
                     break;
 
                 case THE_ULTIMA_WEAPON:
-                    ChangeCutsceneAudioLanguage(LANGUAGE_FRENCH);
+                    CutsceneMovieVoice = LANGUAGE_FRENCH;
                     break;
 
                 case THE_ULTIMA_WEAPON_AGAIN:
-                    ChangeCutsceneAudioLanguage(LANGUAGE_GERMAN);
+                    CutsceneMovieVoice = LANGUAGE_GERMAN;
                     break;
 
                 case LAHABREA:
-                    ChangeCutsceneAudioLanguage(LANGUAGE_ADJUST_TO_CLIENT);
+                    CutsceneMovieVoice = LANGUAGE_ADJUST_TO_CLIENT;
                     break;
             }
         }
@@ -76,11 +77,17 @@ namespace FastPraetorium
         private const uint LANGUAGE_GERMAN = 2;
         private const uint LANGUAGE_FRENCH = 3;
 
-        private const uint CONFIG_INDEX_CUTSCENEAUDIOVOICE = 792;
+        private const string CONFIG_NAME_CUTSCENEMOVIEVOICE = "CutsceneMovieVoice";
 
         private const int CONFIG_ENTRY_SIZE = 0x38;
 
-        private static unsafe void ChangeCutsceneAudioLanguage(uint language)
+        private static unsafe uint CutsceneMovieVoice
+        {
+            get { return GetConfigEntryByName(CONFIG_NAME_CUTSCENEMOVIEVOICE)->Value.UInt; }
+            set { GetConfigEntryByName(CONFIG_NAME_CUTSCENEMOVIEVOICE)->Value.UInt = value; }
+        }
+
+        private static unsafe ConfigEntry* GetConfigEntryByName(string name)
         {
             var systemConfig = (ConfigBase*)(FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance()->GetUiModule()->SystemConfig);
             var configArray = systemConfig->ConfigEntry;
@@ -89,11 +96,15 @@ namespace FastPraetorium
             for (int i = 0; i < length; i++)
             {
                 IntPtr p = new IntPtr((byte*)configArray + (i * CONFIG_ENTRY_SIZE));
-                if (((ConfigEntry*)p)->Index == CONFIG_INDEX_CUTSCENEAUDIOVOICE)
+                ConfigEntry* entry = (ConfigEntry*)p;
+                string configEntryName = Marshal.PtrToStringAnsi(new IntPtr(entry->Name)) ?? "";
+                if (configEntryName == name)
                 {
-                    ((ConfigEntry*)p)->Value.UInt = language;
+                    return entry;
                 }
             }
+
+            throw new Exception("Could not find CutsceneMovieVoice config entry");
         }
     }
 }
