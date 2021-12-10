@@ -14,10 +14,13 @@ namespace FastPraetorium
         private readonly DalamudPluginInterface _pluginInterface;
         [PluginService] [RequiredVersion("1.0")] public static TargetManager TargetManager { get; private set; } = null!;
 
+        private static uint originalLanguage = LANGUAGE_ADJUST_TO_CLIENT;
+
         public FastPraetorium(DalamudPluginInterface pluginInterface)
         {
             _pluginInterface = pluginInterface;
             _pluginInterface.UiBuilder.Draw += CheckTargetChanged;
+            originalLanguage = CutsceneMovieVoice;
         }
 
         public void Dispose()
@@ -51,14 +54,11 @@ namespace FastPraetorium
         private const uint LANGUAGE_GERMAN = 2;
         private const uint LANGUAGE_FRENCH = 3;
 
-        private static uint originalLanguage = LANGUAGE_ADJUST_TO_CLIENT;
-
         private static void OnTargetChanged(uint id)
         {
             switch (id)
             {
                 case NERO_TOL_SCAEVA:
-                    originalLanguage = CutsceneMovieVoice;
                     CutsceneMovieVoice = LANGUAGE_JAPANESE;
                     break;
 
