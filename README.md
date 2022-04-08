@@ -1,3 +1,7 @@
+# DEPRECATED
+
+As of patch 6.1, The Praetorium was split into multiple dungeons, so this plugin is no longer useful. I will leave the repo here in case we ever get FF14 classic. 
+
 # FastPraetorium
 ![PraetoriumCutsceneTimers](Praetorium_Cutscene_Timers.png)
 
